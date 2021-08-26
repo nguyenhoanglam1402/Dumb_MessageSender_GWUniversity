@@ -6,36 +6,41 @@ public class Client {
   private ArrayList<Character> sendingBuffer = new ArrayList<>();
   private Queue<Character> recievingBuffer = new LinkedList<>();
 
-  public boolean isBufferFull() {
-    if (sendingBuffer.size() >= 10) {
-      return true;
-    }
-    return false;
+  public String message = "";
+  public int index = 0;
+
+  public void setMessage(String data) {
+    index = 0;
+    message = data;
   }
 
-  public void setMessage(String message) {
-    for (int index = 0; index < message.length(); index++) {
-      if (!isBufferFull()) {
-        sendingBuffer.add(message.charAt(index));
-      }
-    }
-  }
-
-  public ArrayList<Character> getSendingBuffer() {
-    return sendingBuffer;
-  }
-
-  public void setRecievingBuffer(ArrayList<Character> message) {
-    for (Character letter : message) {
-      recievingBuffer.add(letter);
+  public void setMessageToSendingBuffer() {
+    while (sendingBuffer.size() < 10 && index < message.length()) {
+      sendingBuffer.add(message.charAt(index));
+      index++;
     }
   }
 
-  public String getMessage() {
-    String message = "";
-    for (Character character : recievingBuffer) {
-      message += character;
-    }
-    return message;
+  public int getLengthSendingBuffer() {
+    return sendingBuffer.size();
   }
+
+  public char getSendingBuffer() {
+    char letter = sendingBuffer.get(0);
+    sendingBuffer.remove(0);
+    return letter;
+  }
+
+  public void setRecievingBuffer(Character letter) {
+    recievingBuffer.add(letter);
+  }
+
+  public int getRecievingBufferSize() {
+    return recievingBuffer.size();
+  }
+
+  public char getRecievingBuffer() {
+    return recievingBuffer.poll();
+  }
+
 }

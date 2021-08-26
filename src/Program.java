@@ -9,26 +9,37 @@ public class Program {
   Client receiver = new Client();
 
   public void run() {
-    while (!sender.isBufferFull()) {
-      enterMessage();
+    int count = 0;
+    out.print("Enter message here: ");
+    enterMessage();
+    while (sender.index < sender.message.length()) {
+      sender.setMessageToSendingBuffer();
+      sendMessage();
+      count++;
     }
     showMessage();
+    out.printf("Used buffer: %d time(s)", +count);
   }
 
   public void enterMessage() {
-    out.println("Enter message you wanna send:");
     String message = scanner.nextLine();
     sender.setMessage(message);
-    sendMessage();
   }
 
   public void sendMessage() {
-    if (sender.isBufferFull()) {
-      receiver.setRecievingBuffer(sender.getSendingBuffer());
+    int size = sender.getLengthSendingBuffer();
+    for (int index = 0; index < size; index++) {
+      char letter = sender.getSendingBuffer();
+      receiver.setRecievingBuffer(letter);
     }
   }
 
   public void showMessage() {
-    out.println("Recieved: " + receiver.getMessage());
+    String message = "";
+    while (receiver.getRecievingBufferSize() != 0) {
+      message += receiver.getRecievingBuffer();
+    }
+    out.println("Reciever Message: " + message);
   }
+
 }

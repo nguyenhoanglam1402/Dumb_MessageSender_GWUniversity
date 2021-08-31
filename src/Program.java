@@ -1,4 +1,5 @@
 import java.io.PrintStream;
+import java.sql.Time;
 import java.util.Scanner;
 
 public class Program {
@@ -12,18 +13,26 @@ public class Program {
     int count = 0;
     out.print("Enter message here: ");
     enterMessage();
+    float timeStart = System.currentTimeMillis();
     while (sender.index < sender.message.length()) {
       sender.setMessageToSendingBuffer();
       sendMessage();
       count++;
     }
     showMessage();
+    float timeEnd = System.currentTimeMillis();
+    out.printf("Time executed %.10f\n", (timeEnd - timeStart));
+    out.println("Space: " + (sender.bufferSize * 2));
     out.printf("Used buffer: %d time(s)", +count);
   }
 
   public void enterMessage() {
-    String message = scanner.nextLine();
-    sender.setMessage(message);
+    try {
+      String message = scanner.nextLine();
+      sender.setMessage(message);
+    } catch (Exception e) {
+      out.println("Error: " + e.getMessage());
+    }
   }
 
   public void sendMessage() {

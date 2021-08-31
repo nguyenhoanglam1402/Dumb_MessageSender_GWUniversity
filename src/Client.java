@@ -8,6 +8,7 @@ public class Client {
 
   public String message = "";
   public int index = 0;
+  public int bufferSize = 10;
 
   public void setMessage(String data) {
     index = 0;
@@ -15,7 +16,7 @@ public class Client {
   }
 
   public void setMessageToSendingBuffer() {
-    while (sendingBuffer.size() < 10 && index < message.length()) {
+    while (sendingBuffer.size() < bufferSize && index < message.length()) {
       sendingBuffer.add(message.charAt(index));
       index++;
     }

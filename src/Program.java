@@ -1,5 +1,4 @@
 import java.io.PrintStream;
-import java.sql.Time;
 import java.util.Scanner;
 
 public class Program {
@@ -21,7 +20,7 @@ public class Program {
     }
     showMessage();
     float timeEnd = System.currentTimeMillis();
-    out.printf("Time executed %.10f\n", (timeEnd - timeStart));
+    out.printf("Time executed %.20f\n", (timeEnd - timeStart));
     out.println("Space: " + (sender.bufferSize * 2));
     out.printf("Used buffer: %d time(s)", +count);
   }
@@ -29,7 +28,12 @@ public class Program {
   public void enterMessage() {
     try {
       String message = scanner.nextLine();
-      sender.setMessage(message);
+      if (message.length() != 0 && message.length() <= 255) {
+        sender.setMessage(message);
+      } else {
+        out.println("The message length must be 1 to 255 charater");
+        System.exit(0);
+      }
     } catch (Exception e) {
       out.println("Error: " + e.getMessage());
     }
